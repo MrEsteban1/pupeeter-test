@@ -1,10 +1,15 @@
 import puppeteer from "puppeteer";
 
-export async function openWebPage(url, slowMotion = 400) {
+/**
+ * Function to navigate in a page and click an 'a' element that has href value to '/login'
+ * @param {string} url 
+ * @param {string} delay  || delay in milliseconds
+ */
+export async function openWebPage(url, delay = 400) {
   try {
     const browser = await puppeteer.launch({
       headless: false,
-      slowMo: slowMotion,
+      slowMo: delay,
     });
 
     const page = await browser.newPage();
@@ -15,5 +20,3 @@ export async function openWebPage(url, slowMotion = 400) {
     console.log("Error using openWebPage(): " + error.message);
   }
 }
-
-// export default openWebPage;

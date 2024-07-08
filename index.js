@@ -1,3 +1,4 @@
+import minimist from "minimist";
 import { captureScreenshot } from "./methods/captureScreenshot.js";
 import { generatePdf } from "./methods/generatePdfFromPage.js";
 import { getDataFromPage } from "./methods/getDataFromPage.js";
@@ -11,14 +12,35 @@ const urlsExample = [
   "https://www.example.com",
   "https://www.typescriptlang.org/download/",
 ];
+// We use minimist so its posible to choose method and a url
+const args = minimist(process.argv.slice(2))
 
 async function main() {
-  // await openWebPage("https://www.google.com/");
-  // await captureScreenshot(urlExample);
-  // await navigateWebPage(urlExample2);
-  // await getDataFromPage(urlsExample[2]);
-  //await getSpecificData(urlsExample[1]);
-  await generatePdf(urlsExample[3]);
+  console.log(`--------\nMetodo: ${args.m} | url: ${args.u} \n--------`)
+
+  switch (args.m) {
+    case 'screenshot':
+      await captureScreenshot(args.u || urlsExample[0])
+      break
+    case 'navigate':
+      await navigateWebPage(urlsExample[2]);
+      break
+    case 'openWeb':
+      await openWebPage(args.u || urlsExample[0]);
+      break
+    case 'specific':
+      await getSpecificData(urlsExample[1])
+      break
+    case 'getdata':
+      await getDataFromPage(urlsExample[2]);
+      break
+    case 'pdf':
+      await generatePdf(args.u || urlsExample[3]);
+      break
+    default:
+      console.log("No se especifico metodo para realizar. Intentelo nuevamente!")
+      break
+  }
 }
 
 main();
